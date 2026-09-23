@@ -1,0 +1,52 @@
+name: Bug report
+description: Report a reproducible problem without sharing private Tuya data.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Never include Local Keys, API tokens, device IDs, MAC addresses, or raw
+        encrypted captures. Redact them from all logs and screenshots.
+  - type: input
+    id: version
+    attributes:
+      label: Bridge and integration version
+      placeholder: "0.3.0"
+    validations:
+      required: true
+  - type: input
+    id: home_assistant
+    attributes:
+      label: Home Assistant version and installation type
+      placeholder: "2026.9.3, Home Assistant OS"
+    validations:
+      required: true
+  - type: input
+    id: product
+    attributes:
+      label: Lamp product/model ID
+      description: Do not enter your unique device ID.
+      placeholder: "Product ID zfakffqr, model ID f1nyuo"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include expected behavior and exact reproduction steps.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted logs
+      render: text
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed all keys, tokens, IDs, MAC addresses, and encrypted captures.
+          required: true

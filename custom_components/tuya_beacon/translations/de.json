@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Mit der Tuya-Beacon-Bridge verbinden",
+        "description": "Die lokale HAOS-App muss bereits laufen.",
+        "data": {
+          "name": "Name",
+          "base_url": "Bridge-URL",
+          "api_token": "API-Token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Die Bridge ist nicht erreichbar oder die Anmeldung ist fehlgeschlagen"
+    },
+    "abort": {
+      "already_configured": "Diese Lampe ist bereits konfiguriert"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+name: Tuya Beacon Bridge
+version: "0.3.0"
+slug: tuya_beacon_bridge
+description: Exact legacy BLE advertising bridge for a local Tuya Beacon light
+startup: services
+boot: auto
+stage: experimental
+init: false
+arch:
+  - aarch64
+  - amd64
+host_network: true
+host_dbus: true
+apparmor: false
+privileged:
+  - NET_ADMIN
+  - NET_RAW
+url: "https://github.com/FinnGrndl/SunsetLampHATuyaBridge"
+options:
+  target_mac: null
+  source_id: "7FFE"
+  controller_index: 0
+  scan_enabled: true
+  advertising_instance: 12
+  advertising_interval_ms: 100
+  transmit_seconds: 0.35
+  control_enabled: false
+  listen_host: "127.0.0.1"
+  listen_port: 8099
+  log_level: info
+schema:
+  target_mac: str
+  local_key: password
+  api_token: password
+  target_node_id: str?
+  source_id: str
+  key_derivation_off_packet: password?
+  key_derivation_on_packet: password?
+  controller_index: int(0,65534)
+  scan_enabled: bool
+  advertising_instance: int(1,255)
+  advertising_interval_ms: int(20,10485)
+  transmit_seconds: float(0.2,10)
+  control_enabled: bool
+  listen_host: str
+  listen_port: port
+  log_level: list(debug|info|warning|error)

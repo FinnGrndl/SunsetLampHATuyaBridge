@@ -1,0 +1,49 @@
+configuration:
+  target_mac:
+    name: Bluetooth-Adresse der Lampe
+    description: Sechsstellige Bluetooth-MAC, zum Beispiel AA:BB:CC:DD:EE:FF.
+  local_key:
+    name: Tuya Local Key
+    description: Aktueller 16-stelliger Schlüssel der Lampe. Geheim halten.
+  api_token:
+    name: Bridge-API-Token
+    description: Zufälliges Geheimnis mit mindestens 24 Zeichen; auch in der Integration eintragen.
+  target_node_id:
+    name: Ziel-Node-ID (erweitert)
+    description: Optionale hexadezimale Node-ID; wird normalerweise automatisch gelernt.
+  source_id:
+    name: Controller-Node-ID
+    description: Hexadezimale Node-ID, mit der die Bridge Befehle sendet.
+  key_derivation_off_packet:
+    name: AUS-Capture (erweitert)
+    description: Optionaler 26-Byte-P2-AUS-Frame als Hex für eine manuelle Migration.
+  key_derivation_on_packet:
+    name: EIN-Capture (erweitert)
+    description: Optionaler 26-Byte-P2-EIN-Frame als Hex für eine manuelle Migration.
+  controller_index:
+    name: Bluetooth-Controller-Index
+    description: Linux-HCI-Index; 0 wählt hci0.
+  scan_enabled:
+    name: Beobachtung aktivieren
+    description: Gemeinsamen BlueZ-LE-Scan für Training und Statusbeobachtung verwenden.
+  advertising_instance:
+    name: Advertising-Instanz
+    description: Reservierte Linux-Management-Instanz für Bridge-Befehle.
+  advertising_interval_ms:
+    name: Advertising-Intervall
+    description: Millisekunden zwischen BLE-Sendungen; empfohlen sind 100.
+  transmit_seconds:
+    name: Sendedauer
+    description: Sendedauer je BLE-Befehl; erhöhen, falls Befehle verloren gehen.
+  control_enabled:
+    name: Steuerung aktivieren
+    description: Erst nach abgeschlossenem AUS/EIN-Training aktivieren.
+  listen_host:
+    name: API-Bind-Adresse
+    description: 127.0.0.1 beibehalten, sofern kein entfernter API-Zugriff nötig ist.
+  listen_port:
+    name: API-Port
+    description: Lokaler TCP-Port für die Home-Assistant-Integration.
+  log_level:
+    name: Log-Level
+    description: Ausführlichkeit der Bridge-Protokollierung.

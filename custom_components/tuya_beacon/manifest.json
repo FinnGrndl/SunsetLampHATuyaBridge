@@ -1,0 +1,11 @@
+{
+  "domain": "tuya_beacon",
+  "name": "Tuya Beacon",
+  "codeowners": ["@FinnGrndl"],
+  "config_flow": true,
+  "documentation": "https://github.com/FinnGrndl/SunsetLampHATuyaBridge#readme",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/FinnGrndl/SunsetLampHATuyaBridge/issues",
+  "version": "0.3.0"
+}

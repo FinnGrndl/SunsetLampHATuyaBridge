@@ -1,0 +1,49 @@
+configuration:
+  target_mac:
+    name: Lamp Bluetooth address
+    description: Six-byte Bluetooth MAC address, for example AA:BB:CC:DD:EE:FF.
+  local_key:
+    name: Tuya Local Key
+    description: Current 16-character key for the lamp. Keep this secret.
+  api_token:
+    name: Bridge API token
+    description: Random secret of at least 24 characters, also used by the integration.
+  target_node_id:
+    name: Target node ID (advanced)
+    description: Optional hexadecimal node ID; normally learned automatically.
+  source_id:
+    name: Controller node ID
+    description: Hexadecimal node ID used by this bridge when sending commands.
+  key_derivation_off_packet:
+    name: OFF capture (advanced)
+    description: Optional 26-byte P2 OFF frame in hexadecimal for manual migration.
+  key_derivation_on_packet:
+    name: ON capture (advanced)
+    description: Optional 26-byte P2 ON frame in hexadecimal for manual migration.
+  controller_index:
+    name: Bluetooth controller index
+    description: Linux HCI index; 0 selects hci0.
+  scan_enabled:
+    name: Enable observation
+    description: Use a shared BlueZ LE scan for training and state observation.
+  advertising_instance:
+    name: Advertising instance
+    description: Dedicated Linux Management instance reserved for bridge commands.
+  advertising_interval_ms:
+    name: Advertising interval
+    description: Milliseconds between BLE transmissions; 100 is the recommended default.
+  transmit_seconds:
+    name: Transmission duration
+    description: Seconds each BLE command is advertised; increase if commands are missed.
+  control_enabled:
+    name: Enable control
+    description: Enable only after automatic OFF/ON training has completed.
+  listen_host:
+    name: API listen address
+    description: Keep 127.0.0.1 unless remote API access is explicitly required.
+  listen_port:
+    name: API port
+    description: Local TCP port used by the Home Assistant integration.
+  log_level:
+    name: Log level
+    description: Verbosity of bridge logs.
