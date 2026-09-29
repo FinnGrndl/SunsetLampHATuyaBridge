@@ -89,6 +89,10 @@ If commands are occasionally missed because of radio interference, increase
 `transmit_seconds` to `0.5` or `0.7`. Values below the default trade reliability
 for a smaller latency gain.
 
+The bridge also requests `7` dBm for its own short-lived advertising instance.
+Controllers with a lower maximum select the highest supported value; this does
+not change the adapter's global transmit power.
+
 ## Security and Bluetooth coexistence
 
 - The Local Key, derived Beacon Key, API token, captures, plaintext, and

@@ -28,9 +28,9 @@ integration repository. Complete this checklist before announcing a release.
    HACS validation, and Home Assistant hassfest.
 3. Verify app installation from the public repository on Home Assistant OS and
    perform a real OFF, ON, RGB, and brightness test.
-4. Create a GitHub release named `v0.3.0` from tag `v0.3.0`. HACS can install
-   directly from the default branch, but releases provide clearer version and
-   rollback choices.
+4. Create a GitHub release named after the app version (for example `v0.3.2`)
+   from the matching tag. HACS can install directly from the default branch,
+   but releases provide clearer version and rollback choices.
 
 Users can then add the same public URL in both locations:
 

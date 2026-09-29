@@ -29,6 +29,7 @@ MGMT_OP_ADD_EXT_ADV_DATA = 0x0055
 MGMT_ADV_FLAG_CONNECTABLE = 1 << 0
 MGMT_ADV_PARAM_TIMEOUT = 1 << 13
 MGMT_ADV_PARAM_INTERVAL = 1 << 14
+MGMT_ADV_PARAM_TX_POWER = 1 << 15
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -158,6 +159,8 @@ class ManagementSocket:
         advertising_data: bytes,
         hold_seconds: float,
         interval_ms: int,
+        tx_power_dbm: int,
+        force_legacy: bool,
     ) -> int:
         """Add one legacy PDU, preferring explicit advertising intervals."""
         if not 1 <= instance <= 0xFF:
@@ -168,12 +171,21 @@ class ManagementSocket:
             raise ValueError("advertising data is too long")
         if not 20 <= interval_ms <= 10_485:
             raise ValueError("advertising interval must be between 20 and 10485 ms")
+        if not -127 <= tx_power_dbm <= 20:
+            raise ValueError("advertising TX power must be between -127 and 20 dBm")
+        if force_legacy:
+            return self._add_legacy_advertisement(
+                instance=instance,
+                advertising_data=advertising_data,
+                hold_seconds=hold_seconds,
+            )
         try:
             return self._add_extended_advertisement(
                 instance=instance,
                 advertising_data=advertising_data,
                 hold_seconds=hold_seconds,
                 interval_ms=interval_ms,
+                tx_power_dbm=tx_power_dbm,
             )
         except MgmtError as err:
             # Parameters may already have reserved the instance when the data
@@ -201,12 +213,16 @@ class ManagementSocket:
         advertising_data: bytes,
         hold_seconds: float,
         interval_ms: int,
+        tx_power_dbm: int,
     ) -> int:
         """Configure a legacy PDU through the interval-aware MGMT commands."""
         timeout = min(0xFFFF, max(2, math.ceil(hold_seconds) + 2))
         interval_slots = round(interval_ms / 0.625)
         flags = (
-            MGMT_ADV_FLAG_CONNECTABLE | MGMT_ADV_PARAM_TIMEOUT | MGMT_ADV_PARAM_INTERVAL
+            MGMT_ADV_FLAG_CONNECTABLE
+            | MGMT_ADV_PARAM_TIMEOUT
+            | MGMT_ADV_PARAM_INTERVAL
+            | MGMT_ADV_PARAM_TX_POWER
         )
         parameters = struct.pack(
             "<BIHHIIb",
@@ -216,7 +232,7 @@ class ManagementSocket:
             timeout,
             interval_slots,
             interval_slots,
-            0,  # tx power is ignored because its presence flag is unset
+            tx_power_dbm,
         )
         response = self.command(MGMT_OP_ADD_EXT_ADV_PARAMS, parameters)
         if len(response) != 4:
@@ -277,11 +293,15 @@ class LegacyAdvertiser:
         instance: int,
         hold_seconds: float,
         interval_ms: int,
+        tx_power_dbm: int,
+        force_legacy: bool,
     ) -> None:
         self.controller_index = controller_index
         self.instance = instance
         self.hold_seconds = hold_seconds
         self.interval_ms = interval_ms
+        self.tx_power_dbm = tx_power_dbm
+        self.force_legacy = force_legacy
         self._lock = threading.Lock()
 
     def capabilities(self) -> AdvertisingFeatures:
@@ -310,6 +330,8 @@ class LegacyAdvertiser:
                 advertising_data=advertising_data,
                 hold_seconds=self.hold_seconds,
                 interval_ms=self.interval_ms,
+                tx_power_dbm=self.tx_power_dbm,
+                force_legacy=self.force_legacy,
             )
             if added != self.instance:
                 raise MgmtError(f"kernel allocated unexpected advertising instance {added}")

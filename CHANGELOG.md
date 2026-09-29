@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2
+
+- Add optional per-advertisement transmit power (`tx_power_dbm`, default
+  `7` dBm) and a `force_legacy_advertising` compatibility mode to the bridge.
+- Align the integration version with the bridge app.
+
 ## 0.3.0
 
 - Add a Home Assistant App repository and HACS custom-repository installation

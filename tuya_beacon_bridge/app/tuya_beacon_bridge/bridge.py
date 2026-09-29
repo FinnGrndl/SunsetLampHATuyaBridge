@@ -69,6 +69,8 @@ class BridgeConfig:
     scan_enabled: bool
     advertising_instance: int
     advertising_interval_ms: int
+    tx_power_dbm: int
+    force_legacy_advertising: bool
     transmit_seconds: float
     control_enabled: bool
     listen_host: str
@@ -131,6 +133,8 @@ class BridgeConfig:
             scan_enabled=bool(options.get("scan_enabled", True)),
             advertising_instance=int(options.get("advertising_instance", 12)),
             advertising_interval_ms=int(options.get("advertising_interval_ms", 100)),
+            tx_power_dbm=int(options.get("tx_power_dbm", 7)),
+            force_legacy_advertising=bool(options.get("force_legacy_advertising", False)),
             transmit_seconds=float(options.get("transmit_seconds", 0.35)),
             control_enabled=bool(options.get("control_enabled", False)),
             listen_host=str(options.get("listen_host", "127.0.0.1")),
@@ -151,6 +155,8 @@ class TuyaBeaconBridge:
             config.advertising_instance,
             config.transmit_seconds,
             config.advertising_interval_ms,
+            config.tx_power_dbm,
+            config.force_legacy_advertising,
         )
         self._lock = threading.RLock()
         self._command_lock = threading.Lock()
@@ -341,6 +347,8 @@ class TuyaBeaconBridge:
                     "index": self.config.controller_index,
                     "reserved_advertising_instance": self.config.advertising_instance,
                     "advertising_interval_ms": self.config.advertising_interval_ms,
+                    "tx_power_dbm": self.config.tx_power_dbm,
+                    "force_legacy_advertising": self.config.force_legacy_advertising,
                 },
                 "source_id": f"{self.config.source_id:04X}",
                 "target_node_id": f"{self._target_node_id:04X}"

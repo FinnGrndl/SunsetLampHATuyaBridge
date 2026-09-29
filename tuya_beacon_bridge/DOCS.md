@@ -59,6 +59,12 @@ API token:  the exact token configured above
   four copies during the default command window. Keep the `100` ms default
   unless the adapter rejects it; older kernels automatically use a safe legacy
   fallback.
+- `tx_power_dbm`: requested per-advertisement transmission power. The controller
+  selects the highest supported value up to this limit. `7` dBm is suitable for
+  the verified Intel adapter and does not change the adapter's global power.
+- `force_legacy_advertising`: bypasses the interval-aware hardware-offload path
+  and uses the older legacy MGMT command. Leave it disabled unless commands are
+  accepted by the kernel but cannot be received over the air.
 - `transmit_seconds`: duration of each command advertisement. The `0.35`
   default is responsive while still allowing several BLE transmissions.
 - `listen_host` and `listen_port`: local API bind address. Keep the loopback

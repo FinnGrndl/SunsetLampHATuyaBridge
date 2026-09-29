@@ -25,6 +25,8 @@ def _config(path: Path) -> BridgeConfig:
         scan_enabled=True,
         advertising_instance=12,
         advertising_interval_ms=100,
+        tx_power_dbm=7,
+        force_legacy_advertising=False,
         transmit_seconds=0.01,
         control_enabled=True,
         listen_host="127.0.0.1",
@@ -48,6 +50,8 @@ def test_config_allows_automatic_training_without_captures(tmp_path: Path) -> No
     assert config.beacon_key is None
     assert config.target_node_id is None
     assert config.transmit_seconds == 0.35
+    assert config.tx_power_dbm == 7
+    assert config.force_legacy_advertising is False
     assert config.provisioning_path == tmp_path / "provisioning.json"
 
 
@@ -110,6 +114,8 @@ def test_automatic_off_on_training_is_persisted(tmp_path: Path) -> None:
         scan_enabled=config.scan_enabled,
         advertising_instance=config.advertising_instance,
         advertising_interval_ms=config.advertising_interval_ms,
+        tx_power_dbm=config.tx_power_dbm,
+        force_legacy_advertising=config.force_legacy_advertising,
         transmit_seconds=config.transmit_seconds,
         control_enabled=config.control_enabled,
         listen_host=config.listen_host,

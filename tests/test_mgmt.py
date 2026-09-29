@@ -6,6 +6,7 @@ from tuya_beacon_bridge.mgmt import (
     MGMT_ADV_FLAG_CONNECTABLE,
     MGMT_ADV_PARAM_INTERVAL,
     MGMT_ADV_PARAM_TIMEOUT,
+    MGMT_ADV_PARAM_TX_POWER,
     MGMT_OP_ADD_ADVERTISING,
     MGMT_OP_ADD_EXT_ADV_DATA,
     MGMT_OP_ADD_EXT_ADV_PARAMS,
@@ -39,6 +40,8 @@ def test_explicit_interval_uses_legacy_pdu_extended_commands() -> None:
         advertising_data=packet,
         hold_seconds=0.35,
         interval_ms=100,
+        tx_power_dbm=7,
+        force_legacy=False,
     ) == 12
 
     assert [opcode for opcode, _parameters in manager.recorded] == [
@@ -50,11 +53,16 @@ def test_explicit_interval_uses_legacy_pdu_extended_commands() -> None:
         "<BIHHIIb", parameters
     )
     assert instance == 12
-    assert flags == MGMT_ADV_FLAG_CONNECTABLE | MGMT_ADV_PARAM_TIMEOUT | MGMT_ADV_PARAM_INTERVAL
+    assert flags == (
+        MGMT_ADV_FLAG_CONNECTABLE
+        | MGMT_ADV_PARAM_TIMEOUT
+        | MGMT_ADV_PARAM_INTERVAL
+        | MGMT_ADV_PARAM_TX_POWER
+    )
     assert duration == 0
     assert timeout == 3
     assert minimum == maximum == 160  # 100 ms / 0.625 ms
-    assert tx_power == 0
+    assert tx_power == 7
 
     _opcode, data = manager.recorded[1]
     assert data[:3] == bytes((12, 31, 0))
@@ -84,9 +92,26 @@ def test_legacy_command_is_used_when_explicit_intervals_are_unsupported() -> Non
         advertising_data=packet,
         hold_seconds=1.2,
         interval_ms=100,
+        tx_power_dbm=7,
+        force_legacy=False,
     ) == 12
     assert manager.opcodes == [
         MGMT_OP_ADD_EXT_ADV_PARAMS,
         MGMT_OP_REMOVE_ADVERTISING,
         MGMT_OP_ADD_ADVERTISING,
     ]
+
+
+def test_forced_legacy_skips_extended_commands() -> None:
+    manager = LegacyFallbackSocket()
+    packet = expected_on_air_advertisement(bytes(range(26)))
+
+    assert manager.add_advertisement(
+        instance=12,
+        advertising_data=packet,
+        hold_seconds=0.7,
+        interval_ms=100,
+        tx_power_dbm=7,
+        force_legacy=True,
+    ) == 12
+    assert manager.opcodes == [MGMT_OP_ADD_ADVERTISING]

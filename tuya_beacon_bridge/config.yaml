@@ -1,5 +1,5 @@
 name: Tuya Beacon Bridge
-version: "0.3.0"
+version: "0.3.2"
 slug: tuya_beacon_bridge
 description: Exact legacy BLE advertising bridge for a local Tuya Beacon light
 startup: services
@@ -23,6 +23,8 @@ options:
   scan_enabled: true
   advertising_instance: 12
   advertising_interval_ms: 100
+  tx_power_dbm: 7
+  force_legacy_advertising: false
   transmit_seconds: 0.35
   control_enabled: false
   listen_host: "127.0.0.1"
@@ -40,6 +42,8 @@ schema:
   scan_enabled: bool
   advertising_instance: int(1,255)
   advertising_interval_ms: int(20,10485)
+  tx_power_dbm: int(-127,20)
+  force_legacy_advertising: bool
   transmit_seconds: float(0.2,10)
   control_enabled: bool
   listen_host: str

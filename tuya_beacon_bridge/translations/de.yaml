@@ -32,6 +32,12 @@ configuration:
   advertising_interval_ms:
     name: Advertising-Intervall
     description: Millisekunden zwischen BLE-Sendungen; empfohlen sind 100.
+  tx_power_dbm:
+    name: Advertising-Sendeleistung
+    description: Gewünschte Sendeleistung in dBm; der Bluetooth-Controller wählt den höchsten unterstützten Wert bis zu dieser Grenze.
+  force_legacy_advertising:
+    name: Legacy-Advertising erzwingen
+    description: Verwendet den älteren Linux-MGMT-Pfad als Kompatibilitätsmodus für Adapter oder Kernel mit fehlerhaftem Extended-Advertising-Offload.
   transmit_seconds:
     name: Sendedauer
     description: Sendedauer je BLE-Befehl; erhöhen, falls Befehle verloren gehen.

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2
+
+- Add `tx_power_dbm` to request a per-advertisement transmit power (default
+  `7` dBm) without changing the adapter's global power.
+- Add `force_legacy_advertising` as a compatibility mode that uses the older
+  legacy MGMT command instead of the interval-aware extended path.
+- Report both settings in the bridge status.
+
 ## 0.3.0
 
 - Add automatic, local Beacon Key and target-node training from Smart Life OFF
